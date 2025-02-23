@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PersonalDetails } from "../(hooks)/useSubmissionData";
 
 interface Step1Props {
@@ -135,6 +136,9 @@ export default function Step1({ data, onNext }: Step1Props) {
         </label>
       </div>
       <div className=" flex justify-end">
+        <Link href={'/'}>
+          <button className="btn btn-secondary">Cancel</button>
+        </Link>
         <button
           type="submit"
           className="btn btn-primary"
