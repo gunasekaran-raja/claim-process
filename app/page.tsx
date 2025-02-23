@@ -16,10 +16,10 @@ export default async function Home() {
             AI-powered claim processing app ensures quick approvals, real-time tracking, and unmatched accuracy—all in just a few taps.
           </p>
           <div className=" space-x-4">
-            <Link href={'/submit-claim'} target="_blank">
+            <Link href={'/submit-claim'}>
               <button className="btn btn-secondary btn-outline">Submit a Claim</button>
             </Link>
-            <Link href={'/claims'} target="_blank">
+            <Link href={'/claims'}>
               <button className="btn btn-primary">Continue as Accessor</button>
             </Link>
           </div>
