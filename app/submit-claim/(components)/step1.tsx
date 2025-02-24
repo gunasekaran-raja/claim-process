@@ -135,9 +135,9 @@ export default function Step1({ data, onNext }: Step1Props) {
           />
         </label>
       </div>
-      <div className=" flex justify-end">
+      <div className=" flex justify-between items-center">
         <Link href={'/'}>
-          <button className="btn btn-secondary">Cancel</button>
+          <button className=" btn-link btn btn-secondary">Cancel</button>
         </Link>
         <button
           type="submit"

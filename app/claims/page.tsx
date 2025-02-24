@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import useClaimsList from "./(hooks)/useClaimsList";
-import { MinusCircle, PlusCircle } from "@phosphor-icons/react";
+import { House, MinusCircle, PlusCircle } from "@phosphor-icons/react";
 import Link from "next/link";
 
 export default function Claims() {
@@ -15,7 +15,10 @@ export default function Claims() {
       <header className="bg-primary">
         <div className=" max-w-screen-xl mx-auto py-6">
           <Link href="/">
-            <h1 className=" text-4xl font-semibold text-primary-content">Claims Queue</h1>
+            <h1 className=" flex space-x-4 items-center text-4xl font-semibold text-primary-content">
+              <House size={32} />
+              <span>Claims Queue</span>
+            </h1>
           </Link>
         </div>
       </header>

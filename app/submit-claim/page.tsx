@@ -8,6 +8,7 @@ import Step3 from "./(components)/step3";
 import Step4 from "./(components)/step4";
 import useClaimsList from "../claims/(hooks)/useClaimsList";
 import Link from "next/link";
+import { House } from "@phosphor-icons/react";
 
 export default function SubmitClaim() {
 
@@ -71,8 +72,15 @@ export default function SubmitClaim() {
   return (
     <div>
       <header className="bg-primary">
-        <div className=" mx-auto px-4 py-6">
-          <h1 className=" text-center text-4xl font-semibold text-primary-content">Motor Claim Submission</h1>
+        <div className=" mx-auto space-x-4 px-4 py-6">
+          <h1 className=" flex justify-center items-center space-x-4 text-4xl font-semibold text-primary-content">
+            <Link href={"/"}>
+              <House size={32} />
+            </Link>
+            <span>
+              Motor Claim Submission
+            </span>
+          </h1>
         </div>
       </header>
       <div className=" my-8 flex justify-center items-center">
