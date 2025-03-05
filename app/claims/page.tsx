@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import useClaimsList from "./(hooks)/useClaimsList";
-import { House, MinusCircle, PlusCircle } from "@phosphor-icons/react";
+import { HeadCircuit, House, MinusCircle, NotePencil, PlusCircle } from "@phosphor-icons/react";
 import Link from "next/link";
 
 export default function Claims() {
@@ -51,7 +51,11 @@ export default function Claims() {
               <tbody>
                 { storedData.map((claimItem, i) => 
                   <React.Fragment key={i}>
-                    <tr key={i} className={selectedClaim === claimItem.claimNumber ? " shadow-inner border-b-0" : ""} >
+                    <tr key={i} 
+                      className={
+                        selectedClaim === claimItem.claimNumber ? " bg-base-200 border-b-0" : 
+                        ""
+                      } >
                       <th>{ claimItem.claimNumber }</th>
                       <td>{ new Date(claimItem.claimDate).toLocaleDateString() }</td>
                       <td>{ new Date(claimItem.incidentDate).toLocaleDateString() }</td>
@@ -87,10 +91,40 @@ export default function Claims() {
 
                     </tr>
                     { selectedClaim === claimItem.claimNumber &&
-                     <tr key={`detail_${i}`} className="border-t-0">
+                     <tr key={`detail_${i}`} className="border-t-0 bg-base-300">
                       <td colSpan={9}>
-                        Lohrem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec
-                        magna nec libero ultricies tincidunt. Nullam nec magna nec libero
+                        <div className=" p-6 flex space-x-4 w-full items-end">
+                          <div className="w-5/12">
+                            <h2 className=" text-2xl flex items-center mb-4">
+                              <HeadCircuit className=" mr-2" size={28} /> Reasoning
+                            </h2>
+                            <div className=" space-y-4">
+                              <div className="alert">
+                                <span>
+                                  The AI model has identified inconsistencies in the provided incident details and the reported incident date, suggesting potential inaccuracies in the claim.
+                                </span>
+                              </div>
+                              <div className="alert">
+                                <span>
+                                  The claim amount exceeds the policy coverage limits, indicating that the claim cannot be fully honored as per the policy terms.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className=" w-5/12">
+                            <h2 className=" text-2xl flex items-center mb-4">
+                              <NotePencil className=" mr-2" size={28} /> Underwriter&apos;s Notes
+                            </h2>
+                            <div >
+                              <textarea className="w-full h-32 bg-base-200 textarea-bordered textarea" />
+                            </div>
+                          </div>
+                          <div className=" w-2/12 space-y-2 flex-col flex">
+                            <button className="btn btn-sm btn-outline btn-primary">Accept</button>
+                            <button className="btn btn-sm btn-outline btn-error">Reject</button>
+
+                          </div>
+                        </div>
                       </td>
                     </tr>}
                   </React.Fragment>
