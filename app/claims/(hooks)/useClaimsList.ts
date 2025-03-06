@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const DEFAULT_SUBMISSION_URL = "https://gist.githubusercontent.com/gunasekaran-raja/e83cf2b5b47e4360ec636fd7d66da527/raw/claims-demo.json"
+export const DEFAULT_SUBMISSION_URL = "https://gist.githubusercontent.com/khushi11112002/c21baaf03ef376cd829f177cd399139f/raw/claims_prediction_data.json"
 
 export interface ClaimItem {
   "claimNumber": number,
@@ -13,6 +13,8 @@ export interface ClaimItem {
   "dataOS": {
     "suggest": "approve" | "reject",
     "confidence": number
+    "llmReasoning": string
+    "additionalNote": string
   }
 
 }
@@ -28,23 +30,23 @@ export default function useClaimsList() {
       window.localStorage.getItem("claimList") || "null"
     )
 
-    if(localData) {
-      setStoredData(localData.sort((a, b) => b.claimNumber - a.claimNumber))
-    } else {
-      setLoading(true)
-      fetch(DEFAULT_SUBMISSION_URL)
-        .then((res) => res.json())
-        .then((data: ClaimItem[]) => {
-          const sortedData = data.sort((a, b) => b.claimNumber - a.claimNumber)
-          setStoredData(sortedData)
-          window.localStorage.setItem(
-            "claimList", 
-            JSON.stringify(sortedData)
-          )
-          setLoading(false)
-        }
-      )
-    }
+    fetch(DEFAULT_SUBMISSION_URL)
+      .then((res) => res.json())
+      .then((data: ClaimItem[]) => {
+        const sortedData = data
+        setStoredData(sortedData)
+        window.localStorage.setItem(
+          "claimList", 
+          JSON.stringify(sortedData)
+        )
+        setLoading(false)
+      }
+    ).catch(() => {
+      if(localData) {
+        setStoredData(localData)
+      }
+    })
+
   }, [])
 
 
