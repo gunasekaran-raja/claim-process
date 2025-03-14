@@ -12,9 +12,12 @@ export default function Claims() {
 
 
   useEffect(() => {
-    setCurrentList(JSON.parse(
+    const list: ClaimItem[] | null = JSON.parse(
       window.localStorage.getItem("processedClaimList") || "null"
-    ))
+    )
+    setCurrentList(
+      list?.filter((item) => item.status === "forwarded")
+    )
   }, [])
 
   const handleExpand = (item: ClaimItem) => {
