@@ -31,36 +31,6 @@ export default function Claims() {
     })
   }
 
-  const handleAction = (status: "approved" | "rejected" | "forwarded") => {
-
-
-    const concent = window.confirm(`You're about to ${status === "approved" ? "approve" :
-        status === "rejected" ? "reject" :
-          "forward"
-      } claim number #${selectedClaim!.claimNumber}. Please confirm!`)
-
-
-    if (!concent) return false
-
-    const currentList = JSON.parse(
-      window.localStorage.getItem("processedClaimList") || "null"
-    )
-
-    const claimData = {
-      ...selectedClaim!,
-      status
-    }
-    window.localStorage.setItem(
-      "processedClaimList",
-      JSON.stringify([
-        claimData,
-        ...(currentList || [])
-      ])
-    )
-
-    setSelectedClaim(claimData)
-  }
-
   return (
     <div>
       <header className="bg-primary">
@@ -191,12 +161,10 @@ export default function Claims() {
 
                             <div className=" w-3/12 space-y-2 flex-col flex mt-12">
                               <button
-                                onClick={() => handleAction("approved")}
                                 className="btn btn-sm btn-outline btn-primary">
                                 <Check /> Accept
                               </button>
                               <button
-                                onClick={() => handleAction("rejected")}
                                 className="btn btn-sm btn-outline btn-error mb-8">
                                 <X />  Reject
                               </button>
