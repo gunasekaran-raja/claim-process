@@ -1,16 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ClaimItem } from "../(hooks)/useClaimsList";
 import { Check, HeadCircuit, House, MinusCircle, NotePencil, PlusCircle, X } from "@phosphor-icons/react";
 import Link from "next/link";
 
 export default function Claims() {
 
-  const currentList:ClaimItem[] = JSON.parse(
-    window.localStorage.getItem("processedClaimList") || "null"
-  )
+  const [currentList, setCurrentList] = useState<ClaimItem[]>() 
   const [selectedClaim, setSelectedClaim] = useState<ClaimItem>()
+
+
+  useEffect(() => {
+    setCurrentList(JSON.parse(
+      window.localStorage.getItem("processedClaimList") || "null"
+    ))
+  }, [])
 
   const handleExpand = (item: ClaimItem) => {
 
