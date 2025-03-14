@@ -10,13 +10,13 @@ export interface ClaimItem {
   "incidentDate": string,
   "claimDate": string,
   "accessorNotes"?: string,
+  "status"?: "approved" | "rejected" | "forwarded",
   "dataOS": {
     "suggest": "approve" | "reject",
     "confidence": number
     "llmReasoning": string
     "additionalNote": string
   }
-
 }
 
 export default function useClaimsList() {
@@ -30,14 +30,17 @@ export default function useClaimsList() {
       window.localStorage.getItem("claimList") || "null"
     )
 
+    const submittedList = JSON.parse(
+      window.localStorage.getItem("submittedClaimList") || "null"
+    )
+
     fetch(DEFAULT_SUBMISSION_URL)
       .then((res) => res.json())
       .then((data: ClaimItem[]) => {
-        const sortedData = data
-        setStoredData(sortedData)
+        setStoredData([...(submittedList || []), ...data])
         window.localStorage.setItem(
           "claimList", 
-          JSON.stringify(sortedData)
+          JSON.stringify(data)
         )
         setLoading(false)
       }
@@ -46,9 +49,7 @@ export default function useClaimsList() {
         setStoredData(localData)
       }
     })
-
   }, [])
-
 
   return {
     storedData, loading

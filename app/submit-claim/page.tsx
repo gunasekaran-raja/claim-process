@@ -9,6 +9,7 @@ import Step4 from "./(components)/step4";
 import useClaimsList from "../claims/(hooks)/useClaimsList";
 import Link from "next/link";
 import { House } from "@phosphor-icons/react";
+import MOCK from "./(hooks)/mock-data.json"
 
 export default function SubmitClaim() {
 
@@ -32,15 +33,16 @@ export default function SubmitClaim() {
       "incidentDate": storedData.claim!.incidentDate,
       "claimDate": storedData.claim!.claimDate,
       "accessorNotes": "",
-      "dataOS": {
-        "suggest": Math.round(Math.random()) ? "approve" : "reject",
-        "confidence": Math.round(Math.random() * 100)
-      }
+      "dataOS": MOCK[Math.floor(Math.random() * 100)]
     }
 
+    const currentList = JSON.parse(
+      window.localStorage.getItem("submittedClaimList") || "null"
+    )
+
     window.localStorage.setItem(
-      "claimList", 
-      JSON.stringify([...(claimList || []), payload])
+      "submittedClaimList", 
+      JSON.stringify([payload, ...(currentList || [])])
     )
 
     setClaimNumber(newClaimNumber)

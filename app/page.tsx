@@ -9,18 +9,21 @@ export default async function Home() {
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content text-center">
-        <div className="max-w-md">
+        <div className="max-w-xl">
           <h1 className="text-5xl font-bold">Fast, Hassle-Free Claims. Anytime, Anywhere.</h1>
           <p className="py-6">
             Submit. Track. Get Approved with Accuracy. <br />
             AI-powered claim processing app ensures quick approvals, real-time tracking, and unmatched accuracy—all in just a few taps.
           </p>
-          <div className=" space-x-4">
+          <div className=" space-x-4 flex justify-center items-center">
             <Link href={'/submit-claim'}>
               <button className="btn btn-secondary btn-outline">Submit a Claim</button>
             </Link>
             <Link href={'/claims'}>
               <button className="btn btn-primary">Continue as Accessor</button>
+            </Link>
+            <Link href={'/claims?mode=underwriter'}>
+              <button className="btn btn-outline">Continue as Under-Writer</button>
             </Link>
           </div>
         </div>
