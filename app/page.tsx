@@ -22,7 +22,7 @@ export default async function Home() {
             <Link href={'/claims'}>
               <button className="btn btn-primary">Continue as Accessor</button>
             </Link>
-            <Link href={'/claims?mode=underwriter'}>
+            <Link href={'/claims/forwards'}>
               <button className="btn btn-outline">Continue as Under-Writer</button>
             </Link>
           </div>

@@ -26,13 +26,18 @@ export default function useClaimsList() {
 
   useEffect(() => {
     
+    setLoading(true)
+    
     const localData: ClaimItem[] = JSON.parse(
       window.localStorage.getItem("claimList") || "null"
     )
 
-    const submittedList = JSON.parse(
+    const submittedList: ClaimItem[] = JSON.parse(
       window.localStorage.getItem("submittedClaimList") || "null"
-    )
+    )?.map((item: ClaimItem) => ({
+      ...item,
+      claimNumber: `C${item.claimNumber}`
+    }))
 
     fetch(DEFAULT_SUBMISSION_URL)
       .then((res) => res.json())
@@ -48,6 +53,7 @@ export default function useClaimsList() {
       if(localData) {
         setStoredData(localData)
       }
+      setLoading(false)
     })
   }, [])
 

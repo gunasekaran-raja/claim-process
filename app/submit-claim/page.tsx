@@ -6,24 +6,26 @@ import useSubmissionData from "./(hooks)/useSubmissionData";
 import Step2 from "./(components)/step2";
 import Step3 from "./(components)/step3";
 import Step4 from "./(components)/step4";
-import useClaimsList from "../claims/(hooks)/useClaimsList";
 import Link from "next/link";
-import { House } from "@phosphor-icons/react";
+import { House, HouseLine } from "@phosphor-icons/react";
 import MOCK from "./(hooks)/mock-data.json"
 
 export default function SubmitClaim() {
 
   const [ step, setStep ] = useState(1)
   const { storedData } = useSubmissionData()
-  const { storedData: claimList } = useClaimsList()
 
-  const [ claimNumber, setClaimNumber ] = useState<number>()
+  const [ claimNumber, setClaimNumber ] = useState<string>()
   
   const handleSumbit = () => {
 
     if(!storedData) return false
 
-    const newClaimNumber = claimList ? claimList[0].claimNumber + 1 : 10001
+    const currentList = JSON.parse(
+      window.localStorage.getItem("submittedClaimList") || "null"
+    )
+
+    const newClaimNumber = currentList ? currentList[0].claimNumber + 1 : 20001
 
     const payload = {
       claimNumber: newClaimNumber,
@@ -36,16 +38,12 @@ export default function SubmitClaim() {
       "dataOS": MOCK[Math.floor(Math.random() * 100)]
     }
 
-    const currentList = JSON.parse(
-      window.localStorage.getItem("submittedClaimList") || "null"
-    )
-
     window.localStorage.setItem(
       "submittedClaimList", 
       JSON.stringify([payload, ...(currentList || [])])
     )
 
-    setClaimNumber(newClaimNumber)
+    setClaimNumber("C"+newClaimNumber)
   }
 
   if(claimNumber){
@@ -60,10 +58,17 @@ export default function SubmitClaim() {
               Thank you for submitting your claim. <br />
               We will notify you once the claim is processed.
             </p>
-            <div className=" space-x-4">
+            <div className=" space-x-4 flex items-center justify-center w-full">
+              <Link href={'/'} >
+                <button className="btn btn-outline">
+                  <HouseLine /> Home
+                </button>
+              </Link>
               <Link href={'/'} >
                 <button className="btn btn-primary">Learn More</button>
               </Link>
+
+              
             </div>
           </div>
         </div>

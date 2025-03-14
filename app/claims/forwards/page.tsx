@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import useClaimsList, { ClaimItem } from "./(hooks)/useClaimsList";
-import { ArrowBendUpRight, Check, HeadCircuit, House, MinusCircle, NotePencil, PlusCircle, X } from "@phosphor-icons/react";
+import { ClaimItem } from "../(hooks)/useClaimsList";
+import { Check, HeadCircuit, House, MinusCircle, NotePencil, PlusCircle, X } from "@phosphor-icons/react";
 import Link from "next/link";
 
 export default function Claims() {
 
-  const { storedData, loading } = useClaimsList()
+  const currentList:ClaimItem[] = JSON.parse(
+    window.localStorage.getItem("processedClaimList") || "null"
+  )
   const [selectedClaim, setSelectedClaim] = useState<ClaimItem>()
-
-  const [notesError, setNotesError] = useState(false)
 
   const handleExpand = (item: ClaimItem) => {
 
@@ -26,21 +26,16 @@ export default function Claims() {
     })
   }
 
-  const handleAction = (status:  "approved" | "rejected" | "forwarded") => {
-
-    if (status === "forwarded" && !selectedClaim?.accessorNotes) {
-      setNotesError(true)
-      return false
-    }
-    
-    const concent = window.confirm(`You're about to ${
-      status === "approved" ? "approve" :
-      status === "rejected" ? "reject" :
-      "forward"
-    } claim number #${selectedClaim!.claimNumber}. Please confirm!`)
+  const handleAction = (status: "approved" | "rejected" | "forwarded") => {
 
 
-  if(!concent) return false
+    const concent = window.confirm(`You're about to ${status === "approved" ? "approve" :
+        status === "rejected" ? "reject" :
+          "forward"
+      } claim number #${selectedClaim!.claimNumber}. Please confirm!`)
+
+
+    if (!concent) return false
 
     const currentList = JSON.parse(
       window.localStorage.getItem("processedClaimList") || "null"
@@ -61,14 +56,6 @@ export default function Claims() {
     setSelectedClaim(claimData)
   }
 
-  if(loading) {
-    return(
-      <div className=" flex w-full h-screen justify-center items-center">
-        <span className="loading loading-spinner loading-xl"></span>
-      </div>
-    )
-  }
-
   return (
     <div>
       <header className="bg-primary">
@@ -86,11 +73,10 @@ export default function Claims() {
           <ul>
             <li><a>Customer Central</a></li>
             <li><a>Claims</a></li>
-            <li>All</li>
+            <li className=" text-primary">Forwards</li>
           </ul>
         </div>
-        {!storedData && <p> No items available </p>}
-        {storedData &&
+        {!currentList || currentList.length === 0 ? <p> No items available </p> : 
           <div className="overflow-x-auto">
             <table className="table border rounded-lg">
               {/* head */}
@@ -108,7 +94,7 @@ export default function Claims() {
                 </tr>
               </thead>
               <tbody>
-                {storedData.map((claimItem, i) =>
+                {currentList.map((claimItem, i) =>
                   <React.Fragment key={i}>
                     <tr key={i}
                       className={
@@ -151,7 +137,7 @@ export default function Claims() {
                       <tr key={`detail_${i}`} className="border-t-0 bg-base-300">
                         <td colSpan={9}>
                           <div className=" p-6 flex space-x-4 w-full items-start">
-                            <div className="w-5/12">
+                            <div className="w-3/12">
                               <h2 className=" text-2xl flex items-center mb-4">
                                 <HeadCircuit className=" mr-2" size={28} /> Reasoning
                               </h2>
@@ -168,7 +154,7 @@ export default function Claims() {
                                 </div>
                               </div>
                             </div>
-                            <div className=" w-5/12">
+                            <div className=" w-3/12">
                               <label className="form-control w-full">
                                 <span className=" label-text text-2xl flex items-center mb-4">
                                   <NotePencil className=" mr-2" size={28} /> Forward Notes
@@ -181,41 +167,34 @@ export default function Claims() {
                                   })}
                                   value={selectedClaim.accessorNotes}
                                   placeholder="Enter your notes here"
-                                  className={`w-full h-32 bg-base-200 textarea-bordered textarea ${notesError ? "border-error" : ""}`}
+                                  className={`w-full h-32 bg-base-200 textarea-bordered textarea`}
                                 />
-                                {notesError && <p className="text-error"> Notes cannot be empty </p>}
                               </label>
                             </div>
-                            <div className=" w-2/12 space-y-2 flex-col flex mt-12">
-                              {
-                                selectedClaim.status ?
-                                  <span 
-                                    className={" mt-0 font-bold capitalize text-2xl " + 
-                                       ( selectedClaim.status === "approved" ? " text-green-600 " : 
-                                        selectedClaim.status === "rejected" ? "text-red-500" : "text-blue-500"
-                                       ) }
-                                  >
-                                      {selectedClaim.status}!
-                                  </span> :
-                                  <>
-                                    <button
-                                      onClick={() => handleAction("approved")}
-                                      className="btn btn-sm btn-outline btn-primary">
-                                      <Check /> Accept
-                                    </button>
-                                    <button
-                                      onClick={() => handleAction("rejected")}
-                                      className="btn btn-sm btn-outline btn-error mb-8">
-                                      <X />  Reject
-                                    </button>
-                                    <button
-                                      onClick={() => handleAction("forwarded")}
-                                      className="btn btn-sm btn-outline mt-8"
-                                    >
-                                      <ArrowBendUpRight /> Forward
-                                    </button>
-                                  </>
-                              }
+
+                            <div className=" w-3/12">
+                              <label className="form-control w-full">
+                                <span className=" label-text text-2xl flex items-center mb-4">
+                                  <NotePencil className=" mr-2" size={28} /> Underwriter&apos;s Notes
+                                </span>
+                                <textarea                                 
+                                  placeholder="Enter your notes here"
+                                  className={`w-full h-32 bg-base-200 textarea-bordered textarea`}
+                                />
+                              </label>
+                            </div>
+
+                            <div className=" w-3/12 space-y-2 flex-col flex mt-12">
+                              <button
+                                onClick={() => handleAction("approved")}
+                                className="btn btn-sm btn-outline btn-primary">
+                                <Check /> Accept
+                              </button>
+                              <button
+                                onClick={() => handleAction("rejected")}
+                                className="btn btn-sm btn-outline btn-error mb-8">
+                                <X />  Reject
+                              </button>
                             </div>
                           </div>
                         </td>
