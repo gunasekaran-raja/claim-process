@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ClaimItem } from "../(hooks)/useClaimsList";
-import { ArrowBendUpRight, Check, HeadCircuit, MinusCircle, NotePencil, PlusCircle, X } from "@phosphor-icons/react";
+import { ArrowBendUpRight, Check, MinusCircle, NotePencil, PlusCircle, X } from "@phosphor-icons/react";
 
 type ClaimTableProps = {
   data: ClaimItem[]
@@ -149,16 +149,18 @@ export default function ClaimsTable({
                       <div className={
                         mode === "underwriter" || selectedClaim.underWriterNotes ? "w-4/12" : "w-6/12"
                       }>
-                        <h2 className=" text-2xl flex items-center mb-4">
-                          <HeadCircuit className=" mr-2" size={28} /> Reasoning
-                          <span className="btn btn-link text-right">Learn more </span>
+                        <h2 className=" text-2xl flex items-center mb-2">
+                          ML Reasoning
                         </h2>
-                        <div className=" space-y-4">
-                          <div className="alert">
+                        <div className="">
+                          <div className="alert mb-4">
                             <span>
                               {claimItem.dataOS.llmReasoning}
                             </span>
                           </div>
+                          <h2 className=" text-2xl flex items-center mb-2">
+                            LLM Reasoning
+                          </h2>
                           <div className="alert">
                             <span>
                               {claimItem.dataOS.additionalNote}
