@@ -10,6 +10,8 @@ export interface ClaimItem {
   "incidentDate": string,
   "claimDate": string,
   "accessorNotes"?: string,
+  "underWriterNotes"?: string,
+  "underWriterStatus"?: "approved" | "rejected",
   "status"?: "approved" | "rejected" | "forwarded",
   "dataOS": {
     "suggest": "approve" | "reject",
