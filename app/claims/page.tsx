@@ -160,12 +160,12 @@ export default function Claims() {
                               <div className=" space-y-4">
                                 <div className="alert">
                                   <span>
-                                    The AI model has identified inconsistencies in the provided incident details and the reported incident date, suggesting potential inaccuracies in the claim.
+                                    {claimItem.dataOS.llmReasoning}
                                   </span>
                                 </div>
                                 <div className="alert">
                                   <span>
-                                    The claim amount exceeds the policy coverage limits, indicating that the claim cannot be fully honored as per the policy terms.
+                                    {claimItem.dataOS.additionalNote}
                                   </span>
                                 </div>
                               </div>
