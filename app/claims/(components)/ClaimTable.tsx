@@ -77,9 +77,9 @@ export default function ClaimsTable({
 
   const Decision = (({ status }: { status: "approved" | "rejected" | "forwarded" | "pending" }) => 
     <span className={
-      status === "approved" ? "text-green-600" :
-      status === "rejected" ? "text-red-500" :
-      status === "forwarded" ? "text-blue-500" : " text-gray-500"
+      status === "approved" ? "text-green-600 underline" :
+      status === "rejected" ? "text-red-500 underline" :
+      status === "forwarded" ? "text-blue-500" : " text-gray-500 text-xs"
     }>{status}</span>
   )
 
@@ -121,8 +121,8 @@ export default function ClaimsTable({
                     <span className=" italic">Undecided</span>
                   }
                 </td>
-                <td className=" text-center"> {claimItem.dataOS.confidence} </td>
-                <td className=" text-center"> {claimItem.dataOS.confidence} </td>
+                <td className=" text-center"> {Math.round(claimItem.dataOS.confidence)} </td>
+                <td className=" text-center"> {Math.round(claimItem.dataOS.confidence)} </td>
                 <td className=" text-center capitalize"> {
                   <Decision status={claimItem.underWriterStatus || claimItem.status || "pending"} />
                 } </td>
