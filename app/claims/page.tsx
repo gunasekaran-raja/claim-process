@@ -103,7 +103,8 @@ export default function Claims() {
                   <th>Name</th>
                   <th>Accessor Notes</th>
                   <th className=" text-center"> Suggestion </th>
-                  <th className=" text-center"> Score </th>
+                  <th className=" text-center"> ML Score </th>
+                  <th className=" text-center"> LLM Score </th>
                   <th></th>
                 </tr>
               </thead>
@@ -130,6 +131,7 @@ export default function Claims() {
                           <span className=" italic">Undecided</span>
                         }
                       </td>
+                      <td className=" text-center"> {claimItem.dataOS.confidence} </td>
                       <td className=" text-center"> {claimItem.dataOS.confidence} </td>
                       <td className=" flex space-x-2 items-center">
                         <span className=" cursor-pointer text-xl">

@@ -20,10 +20,10 @@ export default async function Home() {
               <button className="btn btn-secondary btn-outline">Submit a Claim</button>
             </Link>
             <Link href={'/claims'}>
-              <button className="btn btn-primary">Continue as Accessor</button>
+              <button className="btn btn-primary">Continue as Adjuster</button>
             </Link>
             <Link href={'/claims/forwards'}>
-              <button className="btn btn-outline">Continue as Under-Writer</button>
+              <button className="btn btn-outline">Continue as Underwriter</button>
             </Link>
           </div>
         </div>
