@@ -20,6 +20,7 @@ export default function ClaimsTable({
   const [ claimList, setClaimList ] = useState<ClaimItem[]>(data)
   const [selectedClaim, setSelectedClaim] = useState<ClaimItem>()
   const [notesError, setNotesError] = useState(false)
+  const [fullDetail, setFullDetail] = useState<ClaimItem["full_details"]>()
 
   const handleAction = (props: HandleActionProps) => {
 
@@ -186,7 +187,7 @@ export default function ClaimsTable({
                           />
                           {notesError && <p className="text-error"> Notes cannot be empty </p>}
                         </label>
-                        <span className="btn btn-link">View full details </span>
+                        <span onClick={() => setFullDetail(selectedClaim.full_details)} className="btn btn-link">View full details </span>
                       </div>
 
                       {(mode === "underwriter" || selectedClaim.underWriterNotes) && <div className=" w-3/12">
@@ -259,6 +260,56 @@ export default function ClaimsTable({
           )}
         </tbody>
       </table>
+      <dialog onClose={() => setFullDetail(undefined)} open={!!fullDetail} className="modal">
+        <div className="modal-box w-11/12 max-w-5xl">
+          <div className=" flex space-x-2">
+            <div className="card p-4  space-y-2 w-1/2">
+              <h3 className="font-bold text-lg">Claim: {fullDetail?.claimNumber}</h3>
+              <p>First name: { fullDetail?.firstName }</p>
+              <p>Last name: { fullDetail?.lastName }</p>
+              <p>Claim Date: {new Date(fullDetail?.claimDate || "").toLocaleDateString()}</p>
+              <p>Incident Date: {new Date(fullDetail?.incidentDate || "").toLocaleDateString()}</p>
+              <p>Policy Number: {fullDetail?.policy_id}</p>
+              <p>Vehicle Registration: {fullDetail?.vehicle_registration_number}</p>
+              <p>Driving License: {fullDetail?.driving_licence_number}</p>
+              <p>Policy Issue Date: {new Date(fullDetail?.policy_issue_date || "").toLocaleDateString()}</p>
+              <p>Postal Code: {fullDetail?.postal_code}</p>
+              <p>Accessor Notes: {fullDetail?.accessorNotes}</p>
+
+            </div>
+
+            <div className="card bg-base-200 p-4 space-y-2  w-1/2">
+
+              <p className=" text-lg">
+                ML Reasoning
+              </p>
+              <div className="alert bg-base-100">
+                <span>
+                  {fullDetail?.dataOS.llmReasoning}
+                </span>
+              </div>
+              <p className=" text-lg mt-4">
+                LLM Reasoning
+              </p>
+              <div className="alert bg-base-100">
+                <span>
+                  {fullDetail?.dataOS.additionalNote}
+                </span>
+              </div>
+              
+              <p>Suggestion: {fullDetail?.dataOS.suggest} </p>
+              <p>Confidence: {fullDetail?.dataOS.confidence}</p>
+            </div>
+
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
 
   );

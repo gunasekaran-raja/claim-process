@@ -26,7 +26,7 @@ export default function SubmitClaim() {
     )
 
     const newClaimNumber = currentList ? currentList[0].claimNumber + 1 : 20001
-
+    const dataOS = MOCK[Math.floor(Math.random() * 100)]
     const payload = {
       claimNumber: newClaimNumber,
       "firstName": storedData.personal!.firstName,
@@ -35,7 +35,21 @@ export default function SubmitClaim() {
       "incidentDate": storedData.claim!.incidentDate,
       "claimDate": storedData.claim!.claimDate,
       "accessorNotes": "",
-      "dataOS": MOCK[Math.floor(Math.random() * 100)]
+      "dataOS": dataOS,
+      full_details: {
+        "claimNumber": newClaimNumber,
+        "firstName": storedData.personal!.firstName,
+        "lastName": storedData.personal!.lastName,
+        "incidentDate": storedData.claim!.incidentDate,
+        "claimDate": storedData.claim!.claimDate,
+        "accessorNotes": "",
+        "vehicle_registration_number": storedData.policy!.carRegistrationNumber,
+        "policy_id": storedData.policy!.policyNumber,
+        "policy_issue_date": storedData.policy!.licenseIssueDate,
+        "dataOS": dataOS,
+        "postal_code": storedData.personal!.address.postCode,
+        "driving_licence_number": storedData.policy!.drivingLicenseNumber
+      }
     }
 
     window.localStorage.setItem(

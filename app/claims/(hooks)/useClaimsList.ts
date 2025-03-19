@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const DEFAULT_SUBMISSION_URL = "https://gist.githubusercontent.com/khushi11112002/c21baaf03ef376cd829f177cd399139f/raw/claims_prediction_data.json"
+export const DEFAULT_SUBMISSION_URL = "https://gist.githubusercontent.com/khushi11112002/f1c20051d7ed55035cf12adf35f144eb/raw/claims_prediction_3.json"
 
 export interface ClaimItem {
   "claimNumber": number,
@@ -18,6 +18,25 @@ export interface ClaimItem {
     "confidence": number
     "llmReasoning": string
     "additionalNote": string
+  }
+  full_details: {
+    claimNumber: string
+    firstName: string
+    lastName: string
+    incidentDate: string
+    claimDate: string
+    accessorNotes: string
+    vehicle_registration_number: string
+    policy_id: string
+    policy_issue_date: string
+    dataOS: {
+      suggest: string
+      confidence: number
+      llmReasoning: string
+      additionalNote: string
+    }
+    postal_code: string
+    driving_licence_number: string
   }
 }
 
